@@ -16,9 +16,15 @@ let socket;
         socket = io(ENDPOINT);
 
         setName(name);
-        setRoom(room);
+        setRoom(room); 
 
-        console.log(socket);
+        socket.emit('join', { name, room }, ({ error }) =>{
+           
+        });
+
+        return () => {
+            socket.emit();
+        }
     }, [ENDPOINT, location.search]);
 
     return (
@@ -27,3 +33,4 @@ let socket;
  }
 
  export default Chat;
+// 52 13
