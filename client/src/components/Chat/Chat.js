@@ -23,7 +23,8 @@ let socket;
         });
 
         return () => {
-            socket.emit();
+            socket.emit('disconnect');
+            socket.off();
         }
     }, [ENDPOINT, location.search]);
 
