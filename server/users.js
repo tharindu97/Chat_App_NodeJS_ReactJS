@@ -9,9 +9,14 @@ const addUser = ({ id, name, room }) => {
     if(existingUser){
         return { error: 'Username is token'}
         }
-    }
-const removeUser = () => {
+    
+    const user = { id, name, room};
+    users.push(user); 
 
+    return { user }
+}
+const removeUser = () => {
+    
 }
 const getUser = () => {
 
