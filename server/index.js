@@ -7,6 +7,7 @@ const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 const PORT = process.env.PORT || 5000;
 
 const router = require('./router');
+const { use } = require('./router');
 
 const app = express();
 const server = http.createServer(app);
@@ -24,6 +25,8 @@ io.on('connection', (socket) => {
 
        socket.join(user.room);
 
+       io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)})
+
        callback();
     });
 
@@ -31,12 +34,16 @@ io.on('connection', (socket) => {
         const user = getUser(socket.id);
 
         io.to(user.room).emit('message', { user: user.name, text:message});
+        io.to(user.room).emit('roomdata', { room: user.room, users: getUsersInRoom(user.room)});
 
         callback();
     });
 
     socket.on('disconnect', () => {
-        console.log('User Logout..');
+        const user = removeUser(socket.id);
+        if(user){
+            io.to(user.room).emit('message', { user: 'admin', text: `${user.name} has left` });
+        }
     })
 });
 
@@ -48,4 +55,3 @@ server.listen(PORT, () => {
     console.log(`Server has started on port ${PORT}`)
 });
 
-// 1 08 37
