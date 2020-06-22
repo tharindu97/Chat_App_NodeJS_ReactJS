@@ -56,9 +56,9 @@ let socket;
                 <Messages messages={messages} name={name} />
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage}/>
             </div>
+            
         </div>
     )
  }
 
  export default Chat;
-// 1 23 15
